@@ -426,14 +426,16 @@ public final class MainFrame extends BaseFrame {
 
 		contentPane.add(bottomPane, BorderLayout.SOUTH);
 
+		// JSplitPane pane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+		// listMediaPane, contentPane);
 		JSplitPane pane = new JSplitPane();
-		pane.setSize(600, 0);
+		pane.setSize(800, 0);
 		pane.setDividerSize(5);
-		pane.setDividerLocation(0.2D);
+		pane.setDividerLocation(0.8D);
 
 		listMediaPane = new ListMediaPane();
-		pane.setLeftComponent(listMediaPane);
-		pane.setRightComponent(contentPane);
+		pane.setLeftComponent(contentPane);
+		pane.setRightComponent(listMediaPane);
 
 		setContentPane(pane);
 

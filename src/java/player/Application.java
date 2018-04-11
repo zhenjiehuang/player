@@ -72,6 +72,8 @@ public final class Application {
 	private Application() {
 		eventBus = new EventBus();
 		mediaPlayerComponent = new EmbeddedMediaPlayerComponent() {
+			private static final long serialVersionUID = -1061659091221897666L;
+
 			@Override
 			protected String[] onGetMediaPlayerFactoryExtraArgs() {
 				return new String[] { "--no-osd" }; // Disables the display of

@@ -21,6 +21,9 @@ package player;
 
 import static player.Application.application;
 
+import java.awt.Point;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -31,6 +34,7 @@ import javax.swing.UIManager;
 import player.event.ShutdownEvent;
 import player.view.debug.DebugFrame;
 import player.view.effects.EffectsFrame;
+import player.view.main.ListMediaPane;
 import player.view.main.MainFrame;
 import player.view.messages.NativeLogFrame;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
@@ -61,6 +65,8 @@ public class Start {
 	}
 
 	private final JFrame mainFrame;
+
+	private ListMediaPane listMediaFrame;
 
 	@SuppressWarnings("unused")
 	private final JFrame messagesFrame;
@@ -103,7 +109,7 @@ public class Start {
 
 	public Start() {
 		EmbeddedMediaPlayerComponent mediaPlayerComponent = application().mediaPlayerComponent();
-
+		listMediaFrame = new ListMediaPane();
 		mainFrame = new MainFrame();
 		mainFrame.addWindowListener(new WindowAdapter() {
 			@Override
@@ -120,6 +126,15 @@ public class Start {
 			public void windowClosed(WindowEvent e) {
 			}
 		});
+
+		mainFrame.addComponentListener(new ComponentAdapter() {
+
+			@Override
+			public void componentMoved(ComponentEvent e) {
+				e.getComponent().getLocationOnScreen();
+			}
+		});
+
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		EmbeddedMediaPlayer embeddedMediaPlayer = mediaPlayerComponent.getMediaPlayer();
@@ -132,7 +147,13 @@ public class Start {
 		debugFrame = new DebugFrame();
 	}
 
+	private void setMediaLocation(Point point) {
+		listMediaFrame.setLocation(point);
+	}
+
 	private void start() {
 		mainFrame.setVisible(true);
+		setMediaLocation(mainFrame.getLocationOnScreen());
+		listMediaFrame.setVisible(true);
 	}
 }

@@ -10,6 +10,8 @@ import player.view.image.ImagePane;
 
 final class VideoContentPane extends JPanel {
 
+	private static final long serialVersionUID = 9157672885086809609L;
+
 	private static final String NAME_DEFAULT = "default";
 
 	private static final String NAME_VIDEO = "video";
