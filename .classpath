@@ -13,6 +13,6 @@
 	<classpathentry kind="lib" path="lib/miglayout-swing-5.0.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.7.10.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.7.10.jar"/>
-	<classpathentry kind="lib" path="lib/vlcj-3.10.1.jar" sourcepath="C:/Users/ADMINI~1/AppData/Local/Temp/.org.sf.feeling.decompiler1521710765470/source/vlcj-3.10.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/vlcj-3.10.1.jar" sourcepath="C:/Users/ADMINI~1/AppData/Local/Temp/.org.sf.feeling.decompiler1522837295255/source/vlcj-3.10.1-sources-1522837952483.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
