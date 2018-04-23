@@ -25,6 +25,7 @@ import uk.co.caprica.vlcj.player.MediaPlayer;
 
 public final class SubtitleTrackAction extends MediaPlayerAction {
 
+	private static final long serialVersionUID = 3329054416165879638L;
 	private final int trackId;
 
 	public SubtitleTrackAction(String name, MediaPlayer mediaPlayer, int trackId) {

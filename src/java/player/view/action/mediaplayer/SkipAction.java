@@ -26,6 +26,7 @@ import uk.co.caprica.vlcj.player.MediaPlayer;
 
 final class SkipAction extends MediaPlayerAction {
 
+	private static final long serialVersionUID = 5710133868744880479L;
 	private final long delta;
 
 	SkipAction(Resource resource, MediaPlayer mediaPlayer, long delta) {

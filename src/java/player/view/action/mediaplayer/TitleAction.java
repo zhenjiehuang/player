@@ -24,7 +24,7 @@ import java.awt.event.ActionEvent;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 
 public final class TitleAction extends MediaPlayerAction {
-
+	private static final long serialVersionUID = 3979464258044467760L;
 	private final int titleId;
 
 	public TitleAction(String name, MediaPlayer mediaPlayer, int titleId) {

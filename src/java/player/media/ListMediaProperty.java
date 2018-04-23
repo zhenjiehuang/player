@@ -10,11 +10,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
-
-import player.media.ListMedia.Media;
-
 import java.util.Set;
 import java.util.TreeMap;
+
+import player.media.ListMedia.Media;
 
 /**
  * 播放列表
@@ -102,6 +101,20 @@ public class ListMediaProperty {
 			}
 		}
 		writeFile(dir, listMedia);
+	}
+
+	public static void setList(ListMedia list) {
+		String key = list.getName();
+		ListMedia old = map.get(key);
+		try {
+			writeFile(key, list);
+			map.put(key, list);
+		} catch (Exception e) {
+			if (old != null) {
+				writeFile(key, old);
+			}
+			e.printStackTrace();
+		}
 	}
 
 	private static void writeFile(String dir, ListMedia listMedia) {

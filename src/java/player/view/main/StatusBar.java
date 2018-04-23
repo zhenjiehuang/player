@@ -25,13 +25,15 @@ import static player.time.Time.formatTime;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.google.common.eventbus.Subscribe;
+
 import net.miginfocom.swing.MigLayout;
 import player.event.TickEvent;
 import player.view.BorderedStandardLabel;
 
-import com.google.common.eventbus.Subscribe;
-
 final class StatusBar extends JPanel {
+
+	private static final long serialVersionUID = 4405096792684751873L;
 
 	private final JLabel titleLabel;
 

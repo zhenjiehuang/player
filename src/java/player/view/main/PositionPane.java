@@ -31,14 +31,16 @@ import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.google.common.eventbus.Subscribe;
+
 import net.miginfocom.swing.MigLayout;
 import player.event.TickEvent;
 import player.view.StandardLabel;
 import uk.co.caprica.vlcj.player.MediaPlayer;
 
-import com.google.common.eventbus.Subscribe;
-
 final class PositionPane extends JPanel {
+
+	private static final long serialVersionUID = 1301555232189613301L;
 
 	private final JLabel timeLabel;
 

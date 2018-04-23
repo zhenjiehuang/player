@@ -28,8 +28,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.prefs.Preferences;
@@ -69,6 +67,7 @@ import player.event.StoppedEvent;
 import player.view.BaseFrame;
 import player.view.MouseMovementDetector;
 import player.view.action.StandardAction;
+import player.view.action.mediaplayer.MediaOpenAction;
 import player.view.action.mediaplayer.MediaPlayerActions;
 import player.view.snapshot.SnapshotView;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
@@ -105,7 +104,6 @@ public final class MainFrame extends BaseFrame {
 	private final JMenuBar menuBar;
 
 	private final JMenu mediaMenu;
-	private final JMenu mediaRecentMenu;
 
 	private final JMenu playbackMenu;
 	private final JMenu playbackTitleMenu;
@@ -155,17 +153,7 @@ public final class MainFrame extends BaseFrame {
 
 		MediaPlayerActions mediaPlayerActions = application().mediaPlayerActions();
 
-		mediaOpenAction = new StandardAction(resource("menu.media.item.openFile")) {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(MainFrame.this)) {
-					File file = fileChooser.getSelectedFile();
-					String mrl = file.getAbsolutePath();
-					application().addRecentMedia(mrl);
-					mediaPlayerComponent.getMediaPlayer().playMedia(mrl);
-				}
-			}
-		};
+		mediaOpenAction = new MediaOpenAction(this);
 
 		mediaQuitAction = new StandardAction(resource("menu.media.item.quit")) {
 			@Override
@@ -264,8 +252,6 @@ public final class MainFrame extends BaseFrame {
 		mediaMenu = new JMenu(resource("menu.media").name());
 		mediaMenu.setMnemonic(resource("menu.media").mnemonic());
 		mediaMenu.add(new JMenuItem(mediaOpenAction));
-		mediaRecentMenu = new RecentMediaMenu(resource("menu.media.item.recent")).menu();
-		mediaMenu.add(mediaRecentMenu);
 		mediaMenu.add(new JSeparator());
 		mediaMenu.add(new JMenuItem(mediaQuitAction));
 		menuBar.add(mediaMenu);
@@ -433,7 +419,7 @@ public final class MainFrame extends BaseFrame {
 		pane.setDividerSize(5);
 		pane.setDividerLocation(0.8D);
 
-		listMediaPane = new ListMediaPane();
+		listMediaPane = application().listMediaPane();
 		pane.setLeftComponent(contentPane);
 		pane.setRightComponent(listMediaPane);
 
@@ -561,14 +547,6 @@ public final class MainFrame extends BaseFrame {
 		statusBar.setVisible(statusBarVisible);
 		viewStatusBarAction.select(statusBarVisible);
 		fileChooser.setCurrentDirectory(new File(prefs.get("chooserDirectory", ".")));
-		String recentMedia = prefs.get("recentMedia", "");
-		if (recentMedia.length() > 0) {
-			List<String> mrls = Arrays.asList(prefs.get("recentMedia", "").split("\\|"));
-			Collections.reverse(mrls);
-			for (String mrl : mrls) {
-				application().addRecentMedia(mrl);
-			}
-		}
 	}
 
 	@Override
@@ -582,22 +560,6 @@ public final class MainFrame extends BaseFrame {
 			prefs.putBoolean("alwaysOnTop", isAlwaysOnTop());
 			prefs.putBoolean("statusBar", statusBar.isVisible());
 			prefs.put("chooserDirectory", fileChooser.getCurrentDirectory().toString());
-
-			String recentMedia;
-			List<String> mrls = application().recentMedia();
-			if (!mrls.isEmpty()) {
-				StringBuilder sb = new StringBuilder();
-				for (String mrl : mrls) {
-					if (sb.length() > 0) {
-						sb.append('|');
-					}
-					sb.append(mrl);
-				}
-				recentMedia = sb.toString();
-			} else {
-				recentMedia = "";
-			}
-			prefs.put("recentMedia", recentMedia);
 		}
 	}
 

@@ -30,6 +30,8 @@ import uk.co.caprica.vlcj.player.MediaPlayer;
 
 final class SnapshotAction extends MediaPlayerAction {
 
+	private static final long serialVersionUID = 5989563469971356856L;
+
 	SnapshotAction(Resource resource, MediaPlayer mediaPlayer) {
 		super(resource, mediaPlayer);
 	}

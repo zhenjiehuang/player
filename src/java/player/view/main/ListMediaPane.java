@@ -12,6 +12,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.AbstractCellEditor;
@@ -30,9 +31,11 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import player.media.ListMedia;
 import player.media.ListMedia.Media;
 import player.media.ListMediaProperty;
 import player.media.TableModel;
+import player.view.action.mediaplayer.MediaOpenAction;
 
 public class ListMediaPane extends JPanel {
 
@@ -43,6 +46,8 @@ public class ListMediaPane extends JPanel {
 	private JMenuItem file = new JMenuItem("删除选择文件");
 
 	private JMenuItem location = new JMenuItem("打开文件位置");
+
+	private JMenuItem open = new JMenuItem("添加文件");
 
 	private JComboBox<String> dir = new JComboBox<String>();
 
@@ -105,6 +110,8 @@ public class ListMediaPane extends JPanel {
 
 	};
 
+	private JScrollPane scrollPane = new JScrollPane(table);
+
 	public ListMediaPane() {
 		init();
 		initListener();
@@ -134,8 +141,6 @@ public class ListMediaPane extends JPanel {
 	private JScrollPane centerPane() {
 		table.setTableHeader(null);
 
-		JScrollPane pane = new JScrollPane(table);
-
 		model.addColumn("");
 		model.addColumn("");
 
@@ -148,7 +153,7 @@ public class ListMediaPane extends JPanel {
 		colunm.setMaxWidth(25);
 		colunm.setMinWidth(25);
 		table.setRowHeight(25);
-		return pane;
+		return scrollPane;
 	}
 
 	private void initListener() {
@@ -167,8 +172,8 @@ public class ListMediaPane extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (MouseEvent.BUTTON1 == e.getButton() && e.getClickCount() > 1) {
-					System.out.println();
-					// TODO
+					int row = table.getSelectedRow();
+					// model.get
 				} else if (MouseEvent.BUTTON3 == e.getButton()) {
 					int column = table.columnAtPoint(e.getPoint());
 					if (column == 1) {
@@ -180,11 +185,10 @@ public class ListMediaPane extends JPanel {
 					}
 					// 将表格所选项设为当前右键点击的行
 					table.setRowSelectionInterval(row, row);
-					// System.out.println(model.getValueAt(row, 0));
 					if (menu != null) {
 						menu.setVisible(false);
 					}
-					initMenu(e.getPoint());
+					initItemMenu(e.getPoint());
 				}
 			}
 		});
@@ -202,14 +206,62 @@ public class ListMediaPane extends JPanel {
 				ListMediaProperty.delete(dir.getSelectedItem().toString(), media.getPath());
 			}
 		});
+
+		location.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+
+		open.addActionListener(new MediaOpenAction(this.getParent()));
+
+		scrollPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (MouseEvent.BUTTON3 == e.getButton()) {
+					//
+					if (menu != null) {
+						menu.setVisible(false);
+					}
+					initFileMenu(e.getPoint());
+				}
+			}
+		});
 	}
 
-	private void initMenu(Point point) {
+	private void initItemMenu(Point point) {
 		menu = new JPopupMenu();
 		menu.add(file);
 		menu.add(location);
 		// menu.add
 		menu.show(table, point.x, point.y);
+	}
+
+	private void initFileMenu(Point point) {
+		menu = new JPopupMenu();
+		menu.add(open);
+		// menu.add
+		menu.show(table, point.x, point.y);
+	}
+
+	public void addFile(File... files) {
+		String current = (String) dir.getSelectedItem();
+		ListMedia list = ListMediaProperty.getList(current);
+		list.setName(current);
+		List<Media> medias = list.getMedias();
+		ListMediaProperty.getList(current);
+		for (File file : files) {
+			Media media = new Media();
+			media.setDelay(0);
+			media.setLocation(0);
+			media.setName(file.getName());
+			media.setPath(file.getAbsolutePath());
+			medias.add(media);
+		}
+		model.addDates(medias);
+		list.setMedias(medias);
+		ListMediaProperty.setList(list);
 	}
 
 	class Cell extends AbstractCellEditor implements TableCellRenderer, ActionListener, TableCellEditor {

@@ -19,10 +19,6 @@
 
 package player;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -34,6 +30,7 @@ import com.google.common.eventbus.EventBus;
 
 import player.event.TickEvent;
 import player.view.action.mediaplayer.MediaPlayerActions;
+import player.view.main.ListMediaPane;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 
 /**
@@ -45,17 +42,15 @@ public final class Application {
 
 	private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(RESOURCE_BUNDLE_BASE_NAME);
 
-	private static final int MAX_RECENT_MEDIA_SIZE = 10;
-
 	private final EventBus eventBus;
 
 	private final EmbeddedMediaPlayerComponent mediaPlayerComponent;
 
+	private final ListMediaPane listMediaPane;
+
 	private final MediaPlayerActions mediaPlayerActions;
 
 	private final ScheduledExecutorService tickService = Executors.newSingleThreadScheduledExecutor();
-
-	private final Deque<String> recentMedia = new ArrayDeque<>(MAX_RECENT_MEDIA_SIZE);
 
 	private static final class ApplicationHolder {
 		private static final Application INSTANCE = new Application();
@@ -88,6 +83,8 @@ public final class Application {
 				eventBus.post(TickEvent.INSTANCE);
 			}
 		}, 0, 1000, TimeUnit.MILLISECONDS);
+
+		listMediaPane = new ListMediaPane();
 	}
 
 	public void subscribe(Object subscriber) {
@@ -117,20 +114,8 @@ public final class Application {
 		return mediaPlayerActions;
 	}
 
-	public void addRecentMedia(String mrl) {
-		if (!recentMedia.contains(mrl)) {
-			recentMedia.addFirst(mrl);
-			while (recentMedia.size() > MAX_RECENT_MEDIA_SIZE) {
-				recentMedia.pollLast();
-			}
-		}
+	public ListMediaPane listMediaPane() {
+		return listMediaPane;
 	}
 
-	public List<String> recentMedia() {
-		return new ArrayList<>(recentMedia);
-	}
-
-	public void clearRecentMedia() {
-		recentMedia.clear();
-	}
 }

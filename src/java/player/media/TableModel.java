@@ -6,6 +6,7 @@ import javax.swing.table.DefaultTableModel;
 
 import player.media.ListMedia.Media;
 
+@SuppressWarnings("unchecked")
 public class TableModel extends DefaultTableModel {
 
 	private static final long serialVersionUID = 737219002971116058L;
@@ -18,6 +19,16 @@ public class TableModel extends DefaultTableModel {
 
 	public Media getData(int row) {
 		return (Media) dataVector.elementAt(row);
+	}
+
+	public void addDate(Media media) {
+		dataVector.addElement(media);
+		fireTableDataChanged();
+	}
+
+	public void addDates(List<Media> medias) {
+		dataVector.addAll(medias);
+		fireTableDataChanged();
 	}
 
 	public void addMedia(String key) {

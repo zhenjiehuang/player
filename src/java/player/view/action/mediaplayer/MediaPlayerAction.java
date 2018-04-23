@@ -25,6 +25,7 @@ import uk.co.caprica.vlcj.player.MediaPlayer;
 
 abstract class MediaPlayerAction extends StandardAction {
 
+	private static final long serialVersionUID = 6265281357503696048L;
 	protected final MediaPlayer mediaPlayer;
 
 	MediaPlayerAction(Resource resource, MediaPlayer mediaPlayer) {

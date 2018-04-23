@@ -26,6 +26,8 @@ import uk.co.caprica.vlcj.player.MediaPlayer;
 
 final class MuteAction extends MediaPlayerAction {
 
+	private static final long serialVersionUID = -5690525246174008270L;
+
 	MuteAction(Resource resource, MediaPlayer mediaPlayer) {
 		super(resource, mediaPlayer);
 	}

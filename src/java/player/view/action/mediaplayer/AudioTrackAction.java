@@ -25,6 +25,7 @@ import uk.co.caprica.vlcj.player.MediaPlayer;
 
 public final class AudioTrackAction extends MediaPlayerAction {
 
+	private static final long serialVersionUID = -6184085240785293983L;
 	private final int trackId;
 
 	public AudioTrackAction(String name, MediaPlayer mediaPlayer, int trackId) {

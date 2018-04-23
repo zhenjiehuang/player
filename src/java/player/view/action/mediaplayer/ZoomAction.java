@@ -26,6 +26,7 @@ import uk.co.caprica.vlcj.player.MediaPlayer;
 
 final class ZoomAction extends MediaPlayerAction {
 
+	private static final long serialVersionUID = 3867944573668961500L;
 	private final float zoom;
 
 	ZoomAction(Resource resource, MediaPlayer mediaPlayer, float zoom) {

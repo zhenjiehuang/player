@@ -26,6 +26,8 @@ import uk.co.caprica.vlcj.player.MediaPlayer;
 
 final class AspectRatioAction extends MediaPlayerAction {
 
+	private static final long serialVersionUID = -1458497519152057026L;
+
 	private final String aspectRatio;
 
 	AspectRatioAction(Resource resource, MediaPlayer mediaPlayer, String aspectRatio) {
