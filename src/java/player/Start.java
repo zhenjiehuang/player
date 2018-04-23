@@ -14,6 +14,7 @@ public class Start {
 			lookAndFeelClassName = UIManager.getSystemLookAndFeelClassName();
 		}
 		try {
+			
 			UIManager.setLookAndFeel(lookAndFeelClassName);
 		} catch (Exception e) {
 
