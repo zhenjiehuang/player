@@ -31,12 +31,16 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import com.sun.jna.Native;
+import com.sun.jna.NativeLibrary;
+
 import player.event.ShutdownEvent;
 import player.view.debug.DebugFrame;
 import player.view.effects.EffectsFrame;
 import player.view.main.ListMediaPane;
 import player.view.main.MainFrame;
 import player.view.messages.NativeLogFrame;
+import uk.co.caprica.vlcj.binding.LibVlc;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 import uk.co.caprica.vlcj.log.NativeLog;
@@ -81,6 +85,9 @@ public class Start {
 
 	public static void main(String[] args) throws InterruptedException {
 		// This will locate LibVLC for the vast majority of cases
+		NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "E:\\VideoLAN\\vlc-3.0.2");
+		Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
+
 		new NativeDiscovery().discover();
 
 		setLookAndFeel();
